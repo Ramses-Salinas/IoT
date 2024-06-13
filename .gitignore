@@ -1,0 +1,8 @@
+
+
+# Entorno
+Aplicacion/backend/benv/
+
+# Token
+Aplicacion/backend/token/*.json
+
