@@ -16,13 +16,13 @@ String asistentes[maxAsistentes];
 int numAsistentes = 0;
 
 // UUIDs para los servicios y características
-#define SERVICE_UUID_CAMBIO_ESTADO "11111111-1111-1111-1111-111111111111"
+#define SERVICE_UUID_CAMBIO_ESTADO "2DA27884-06EE-4A0D-9102-9EADB3E6629C"
 #define CHARACTERISTIC_UUID_CAMBIO_ESTADO "11111111-1111-1111-1111-111111111112"
 
-#define SERVICE_UUID_REGISTRAR "22222222-2222-2222-2222-222222222222"
+#define SERVICE_UUID_REGISTRAR "68CCE3A1-A94D-4B2F-AC00-747066E80F05"
 #define CHARACTERISTIC_UUID_REGISTRAR "22222222-2222-2222-2222-222222222223"
 
-#define SERVICE_UUID_LEER "33333333-3333-3333-3333-333333333333"
+#define SERVICE_UUID_LEER "C4997186-5979-40AE-81EC-013A0A4313E2"
 #define CHARACTERISTIC_UUID_LEER "33333333-3333-3333-3333-333333333334"
 
 class MyServerCallbacks: public BLEServerCallbacks {
@@ -36,7 +36,7 @@ class MyServerCallbacks: public BLEServerCallbacks {
 
 class EstadoCallbacks: public BLECharacteristicCallbacks {
     void onWrite(BLECharacteristic *pCharacteristic) {
-      std::string value = pCharacteristic->getValue();
+      String value = pCharacteristic->getValue();
       if (value == "start") {
         periodoActivo = true;
         Serial.println("Periodo de asistencia iniciado.");
@@ -52,10 +52,10 @@ class EstadoCallbacks: public BLECharacteristicCallbacks {
 class RegistrarCallbacks: public BLECharacteristicCallbacks {
     void onWrite(BLECharacteristic *pCharacteristic) {
       if (periodoActivo && numAsistentes < maxAsistentes) {
-        std::string value = pCharacteristic->getValue();
-        asistentes[numAsistentes] = String(value.c_str()); // Conversion std::string a String
+        String value = pCharacteristic->getValue();
+        asistentes[numAsistentes] = value;
         numAsistentes++;
-        Serial.println("Asistencia registrada: " + String(value.c_str()));
+        Serial.println("Asistencia registrada: " + value);
       }
     }
 };
