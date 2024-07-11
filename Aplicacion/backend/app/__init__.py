@@ -16,7 +16,7 @@ def create_app():
     CORS(app, origins="*", supports_credentials=True, methods=["GET", "POST", "PUT", "DELETE"], allow_headers=["Content-Type", "Authorization"])
     
     # Inicializar Firebase
-    cred = credentials.Certificate(r'C:\Users\Milena\Desktop\Proyectos\Kunan\backend\token\kunan-5396a-firebase-adminsdk-pf2qb-0ec058fb36.json')
+    cred = credentials.Certificate(r'/etc/secrets/kunan-5396a-firebase-adminsdk-pf2qb-9e35e1b2f7.json')
     firebase_admin.initialize_app(cred)
     
     db = firestore.client()
