@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:kunan_v01/pantallas/Alumnos/alum_calendario_semanal.dart';
+import 'package:kunan_v01/pantallas/Alumnos/alum_registar_curso.dart';
 import 'package:kunan_v01/pantallas/Profesores/prof_calendario_semanal.dart';
 import 'package:kunan_v01/pantallas/Alumnos/alum_logout.dart';
 import 'package:kunan_v01/pantallas/Profesores/prof_logout.dart';
+import 'package:kunan_v01/pantallas/Profesores/prof_registar_curso.dart';
 
 import '../pantallas/Alumnos/alum_pantalla_principal.dart';
 import '../pantallas/Profesores/prof_pantalla_principal.dart';
@@ -26,12 +28,14 @@ class CustomBottomNavigationBar extends StatefulWidget {
         return {
           '/home_profesor': const ProfMainMenuScreen(idUsuario: 'OuVmuk1gaojmulu9AnhQ'),
           '/calendar_profesor': const ProfCalendarioSemanal(),
+          '/curse_profesor': const ProfRegistrarCurso(),
           '/settings_profesor': const ProflogoutScreen(),
         };
       case 'Alumno':
         return {
           '/home_alumno': const EstMainMenuScreen(idUsuario: 'OuVmuk1gaojmulu9AnhQ'),
           '/calendar_alumno': const EstCalendarioSemanal(),
+          '/curse_alumno': const EstRegistrarCurso(),
           '/settings_alumno': const EstlogoutScreen(),
         };
       default:
@@ -76,6 +80,10 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
             label: '',
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.assignment_add),
+            label: '',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: '',
           ),
@@ -89,6 +97,10 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_today),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.assignment_add),
             label: '',
           ),
           BottomNavigationBarItem(
@@ -109,6 +121,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         unselectedItemColor: const Color.fromRGBO(235,235,245,1),
         selectedItemColor: const Color.fromRGBO(178,219,144,1),
         iconSize: 35,
+        type: BottomNavigationBarType.fixed,
         showSelectedLabels: false,
         showUnselectedLabels: false,
         onTap: _onItemTapped,

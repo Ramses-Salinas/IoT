@@ -2,15 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:kunan_v01/widgets/curso_widget.dart';
-
+import 'package:http/http.dart' as http;
 import '../../widgets/custom_navigationbar.dart';
 import '../../widgets/random_lightcolor.dart';
-import 'package:http/http.dart' as http;
-
+import '../../Controladores/save_preferences.dart';
 
 class ProfMainMenuScreen extends StatefulWidget {
-
   final String idUsuario;
+
   const ProfMainMenuScreen({super.key, required this.idUsuario});
 
   @override
@@ -29,7 +28,20 @@ class _ProfMainMenuScreenState extends State<ProfMainMenuScreen> {
     _fetchUserData();
     _fetchCoursedta();
   }
-
+  Future<void> _saveUserData(Map<String, dynamic> userData) async {
+    try {
+      await SharedPrefUtils.saveString('apellidos', userData['apellidos'] ?? '');
+      await SharedPrefUtils.saveString('codigo', userData['codigo'] ?? '');
+      await SharedPrefUtils.saveString('correo', userData['correo'] ?? '');
+      await SharedPrefUtils.saveBool('esProfesor', userData['esProfesor'] ?? false);
+      await SharedPrefUtils.saveString('escuela', userData['escuela'] ?? '');
+      await SharedPrefUtils.saveString('facultad', userData['facultad'] ?? '');
+      await SharedPrefUtils.saveString('nombres', userData['nombres'] ?? '');
+      print('Datos de usuario guardados exitosamente');
+    } catch (e) {
+      print('Error al guardar datos de usuario: $e');
+    }
+  }
   Future<void> _fetchUserData() async {
     try {
       final response = await http.get(
@@ -46,6 +58,10 @@ class _ProfMainMenuScreenState extends State<ProfMainMenuScreen> {
           _nombre = data['nombres'];
           _isLoading = false;
         });
+        if (data['codigo'] != null) {
+          _saveUserData(data);
+        }
+
       } else {
         throw Exception('Error al obtener datos del usuario');
       }
@@ -130,10 +146,10 @@ class _ProfMainMenuScreenState extends State<ProfMainMenuScreen> {
                     children: [
                       Container(
                         margin: const EdgeInsets.only(left: 50),
-                        child:  Column(
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            const Text(
                               '¡Hola!',
                               style: TextStyle(
                                 fontSize: 50,

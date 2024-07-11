@@ -44,7 +44,7 @@ class _CursoWidgetState extends State<CursoWidget> {
   @override
   Widget build(BuildContext context) {
 
-
+    final size = MediaQuery.of(context).size;
     return Container(
         //width: double.infinity,
       width: 400,
@@ -85,7 +85,7 @@ class _CursoWidgetState extends State<CursoWidget> {
                     widget.curso,
                     style: TextStyle(
                       color: widget.estado == "En Curso" ? Colors.black : widget.color,
-                      fontSize: 20,
+                      fontSize: size.width * 0.04,
                       fontWeight: FontWeight.bold,
                     ),
                   ),

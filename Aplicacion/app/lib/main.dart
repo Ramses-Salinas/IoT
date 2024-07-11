@@ -14,7 +14,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      //home: InicioScreen(),
       home: AnimatedSplashScreen(),
     );
 
@@ -46,12 +45,16 @@ class _AnimatedSplashScreenState extends State<AnimatedSplashScreen> with Single
       end: 1,
     ).animate(_controller);
     _controller.forward();
-
-    _clearSharedPreferences();
+    _printPreferences();
+   // _clearSharedPreferences();
   }
 
   void _clearSharedPreferences() async {
     await SharedPrefUtils.clearData();
+  }
+
+  void _printPreferences() async {
+    await SharedPrefUtils.printAllValues();
   }
 
   @override

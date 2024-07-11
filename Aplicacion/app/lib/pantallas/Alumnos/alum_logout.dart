@@ -1,9 +1,7 @@
-import 'dart:convert';
-
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:kunan_v01/pantallas/inicio.dart';
 import '../../widgets/custom_navigationbar.dart';
+import '../../Controladores/save_preferences.dart';
 
 class EstlogoutScreen extends StatefulWidget {
   const EstlogoutScreen({super.key});
@@ -28,31 +26,23 @@ class _EstlogoutScreenState extends State<EstlogoutScreen> {
 
   Future<void> _fetchUserData() async {
     try {
-      final response = await http.get(
-        Uri.parse(
-            'https://kunan.onrender.com/usuario_info/info/OuVmuk1gaojmulu9AnhQ'),
-        headers: {'Content-Type': 'application/json'},
-      );
+      final nombre = await SharedPrefUtils.getString('nombres') ?? '';
+      final apellido = await SharedPrefUtils.getString('apellidos') ?? '';
+      final correo = await SharedPrefUtils.getString('correo') ?? '';
+      final escuela = await SharedPrefUtils.getString('escuela') ?? '';
+      final facultad = await SharedPrefUtils.getString('facultad') ?? '';
 
-      print(response.statusCode);
-      print(response.body);
-
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        setState(() {
-          _nombre = data['nombres'];
-          _apellido = data['apellidos'];
-          _correo = data['correo'];
-          _escuela = data['escuela'];
-          _facultad = data['facultad'];
-          _isLoading = false;
-        });
-      } else {
-        throw Exception('Error al obtener datos del usuario');
-      }
+      setState(() {
+        _nombre = nombre;
+        _apellido = apellido;
+        _correo = correo;
+        _escuela = escuela;
+        _facultad = facultad;
+        _isLoading = false;
+      });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Error al obtener datos del servidor')),
+        const SnackBar(content: Text('Error al obtener datos guardados')),
       );
     }
   }
@@ -178,11 +168,10 @@ class _EstlogoutScreenState extends State<EstlogoutScreen> {
                   ),
                 const SizedBox(height: 100),
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const InicioScreen()),
+                  onPressed: () async {
+                    await SharedPrefUtils.clearData();
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => InicioScreen()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -206,7 +195,7 @@ class _EstlogoutScreenState extends State<EstlogoutScreen> {
         ),
       ),
       bottomNavigationBar: const CustomBottomNavigationBar(
-        initialIndex: 2,
+        initialIndex: 3,
         usuario: 'Alumno',
       ),
     );
